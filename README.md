@@ -43,8 +43,26 @@ React Frontend (client)
 	-> POST /api/v1/eligibility/verify
 	<- eligibility + generated hipaa_271
 	-> POST /api/v1/eligibility/parse-271 (editable raw_271)
-	<- parsed coverage/copay/pharmacy summary
+	<- parsed summary
 ```
+
+*Note: This is a demonstration prototype and not intended for production use. Due to the unfamiliarity with the subject matter (insurance systems in the United States), some assumptions and simplifications have been made.*
+
+## Design Decisions and Tradeoffs
+
+Since this is a demonstration prototype, several design decisions were made to balance realism with development speed:
+
+- **AI-Assisted Extraction**: We use OpenAI's API to extract structured data from unstructured images. This allows us to demonstrate the potential of AI in document processing without building custom OCR and extraction rules.
+- **Simulated Eligibility Logic**: The eligibility verification step simulates payer responses based on extracted data patterns rather than integrating with real payer APIs. This allows us to demonstrate the end-to-end flow without the complexity of real EDI transactions.
+- **Simplified 271 Generation/Parsing**: The generated 271 message is a minimal, non-standards-compliant string that includes key fields for demonstration. The parsing logic looks for specific patterns rather than implementing a full X12 parser.
+- **No Authentication or Authorization**: The API endpoints are open without auth for simplicity. In production, secure auth and role-based access controls would be essential.
+- **Direct Frontend-Backend Coupling**: The frontend directly calls backend endpoints without an API gateway or service mesh. This is suitable for a prototype but may not scale well in a microservices architecture.
+
+## Notes and Limitations
+
+- Eligibility logic is simulated for prototype use.
+- 271 generation and parsing are intentionally simplified and not a full standards-compliant implementation.
+- Production use should include secure secret handling, auth, audit logging, robust EDI validation, and compliance controls.
 
 ## Prerequisites
 
@@ -188,12 +206,6 @@ Frontend:
 - react-dom
 - vite
 - @vitejs/plugin-react
-
-## Notes and Limitations
-
-- Eligibility logic is simulated for prototype use.
-- 271 generation and parsing are intentionally simplified and not a full standards-compliant implementation.
-- Production use should include secure secret handling, auth, audit logging, robust EDI validation, and compliance controls.
 
 ## License
 
